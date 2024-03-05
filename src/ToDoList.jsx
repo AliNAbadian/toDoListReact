@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function ToDoList() {
-    const [tasks, setTasks] = useState(['Eat Breakfeast', 'take shower', 'walk the dog']);
+    const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState('');
 
     function handleInputChange(event) {
@@ -11,6 +11,7 @@ function ToDoList() {
         if (newTask.trim() !== '') {
             setTasks(t => [...t, newTask]);
             setNewTask('');
+            console.log(tasks);
         }
 
     }
@@ -19,10 +20,21 @@ function ToDoList() {
         setTasks(updatedTasks);
     }
     function moveTaskUp(index) {
-
+        if (index > 0) {
+            const updatedTasks = [...tasks];
+            [updatedTasks[index], updatedTasks[index - 1]] =
+                [updatedTasks[index - 1], updatedTasks[index]]
+            setTasks(updatedTasks);
+        }
     }
     function moveTaskDown(index) {
+        if (index < tasks.length - 1) {
+            const updatedTasks = [...tasks];
+            [updatedTasks[index], updatedTasks[index + 1]] =
+                [updatedTasks[index + 1], updatedTasks[index]]
+            setTasks(updatedTasks);
 
+        }
     }
 
     return (<>
@@ -32,7 +44,7 @@ function ToDoList() {
             <div>
                 <input
                     type="text"
-                    placeholder="Enter a task"
+                    placeholder="Enter a task..."
                     value={newTask}
                     onChange={handleInputChange} />
                 <button className="add-button"
